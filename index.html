@@ -1,0 +1,728 @@
+<title>Будапешт для двоих</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#EEEAdc;
+    --bg-alt:#E3DDC8;
+    --surface:#F8F5EA;
+    --surface-2:#fffdf6;
+    --ink:#16302B;
+    --ink-soft:#4A5C55;
+    --ink-faint:#7C8A83;
+    --gold:#9C7A1C;
+    --gold-soft:#E7D9AE;
+    --paprika:#A6392A;
+    --paprika-soft:#F0DAD2;
+    --moss:#3E5A4E;
+    --moss-soft:#DCE6DD;
+    --border:rgba(22,48,43,0.16);
+    --shadow: 0 18px 40px -24px rgba(22,48,43,0.35);
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101E1B;
+      --bg-alt:#0B1614;
+      --surface:#182B27;
+      --surface-2:#1E332E;
+      --ink:#EDE8D9;
+      --ink-soft:#B9C4BC;
+      --ink-faint:#82938B;
+      --gold:#D8B454;
+      --gold-soft:#3A331E;
+      --paprika:#E08A73;
+      --paprika-soft:#3A2320;
+      --moss:#8CAA98;
+      --moss-soft:#22332B;
+      --border:rgba(237,232,217,0.16);
+      --shadow: 0 18px 40px -20px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101E1B;
+    --bg-alt:#0B1614;
+    --surface:#182B27;
+    --surface-2:#1E332E;
+    --ink:#EDE8D9;
+    --ink-soft:#B9C4BC;
+    --ink-faint:#82938B;
+    --gold:#D8B454;
+    --gold-soft:#3A331E;
+    --paprika:#E08A73;
+    --paprika-soft:#3A2320;
+    --moss:#8CAA98;
+    --moss-soft:#22332B;
+    --border:rgba(237,232,217,0.16);
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.55);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Karla',ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',ui-serif,Georgia,serif;
+    font-weight:500;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .mono{ font-family:'IBM Plex Mono',ui-monospace,monospace; font-variant-numeric:tabular-nums; }
+  a{ color:inherit; }
+  img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+  section{ scroll-margin-top:84px; }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+  }
+  .brand{ display:flex; align-items:baseline; gap:8px; font-family:'Fraunces',serif; font-size:1.05rem; }
+  .brand b{ font-weight:600; }
+  .brand span{ font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--ink-faint); letter-spacing:0.04em; }
+  .navlinks{ display:flex; gap:22px; flex-wrap:wrap; list-style:none; margin:0; padding:0; }
+  .navlinks a{
+    text-decoration:none; font-size:0.82rem; color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.06em; font-weight:600;
+    border-bottom:2px solid transparent; padding-bottom:3px;
+  }
+  .navlinks a:hover{ color:var(--paprika); border-color:var(--paprika); }
+  .navtoggle{ display:none; }
+  @media (max-width:860px){
+    .navlinks{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ position:relative; overflow:hidden; }
+  .hero-media{ position:relative; height:min(72vh, 620px); min-height:420px; }
+  .hero-media img{ filter:saturate(1.05) contrast(1.02); }
+  .hero-scrim{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(10,20,18,0.15) 0%, rgba(10,20,18,0.35) 55%, rgba(10,20,18,0.86) 100%);
+  }
+  .hero-copy{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:0 28px 38px;
+  }
+  .hero-copy-inner{ max-width:1120px; margin:0 auto; color:#F3EEDD; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:0.74rem; letter-spacing:0.14em;
+    text-transform:uppercase; color:#E7D9AE; margin:0 0 12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:26px; height:1px; background:#E7D9AE; display:inline-block; }
+  .hero-copy h1{
+    font-size:clamp(2.4rem, 6vw, 4.1rem); margin:0 0 14px; color:#FBF7EA;
+    font-weight:400;
+  }
+  .hero-copy h1 em{ color:#E4B65B; font-style:italic; }
+  .hero-sub{ font-size:1.05rem; max-width:620px; color:#DCE3DA; margin:0; }
+
+  .route{
+    display:flex; align-items:center; gap:0; margin-top:26px; flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace; color:#F3EEDD;
+  }
+  .route .city{ font-size:0.95rem; letter-spacing:0.02em; white-space:nowrap;}
+  .route .city b{ display:block; font-family:'Fraunces',serif; font-size:1.3rem; font-weight:500; }
+  .route-line{
+    flex:1 1 90px; min-width:70px; height:1px; position:relative; margin:0 14px;
+    background:repeating-linear-gradient(90deg, #E4B65B 0 6px, transparent 6px 12px);
+  }
+  .route-line::after{ content:'✈'; position:absolute; right:0; top:50%; transform:translate(40%,-55%) rotate(90deg); font-size:0.9rem; color:#E4B65B; }
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+  }
+  .stat{ background:var(--surface); padding:22px 20px; }
+  .stat .k{ font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+  .stat .v{ font-family:'Fraunces',serif; font-size:1.5rem; margin-top:6px; color:var(--ink); }
+  .stat .v small{ font-family:'Karla',sans-serif; font-size:0.75rem; color:var(--ink-soft); font-weight:600; }
+  @media (max-width:760px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec{ padding:76px 0; border-bottom:1px solid var(--border); }
+  .sec:last-of-type{ border-bottom:none; }
+  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:38px; flex-wrap:wrap; }
+  .sec-num{ font-family:'IBM Plex Mono',monospace; color:var(--paprika); font-size:0.8rem; letter-spacing:0.1em; margin:0 0 6px; }
+  .sec-head h2{ font-size:clamp(1.7rem,3.4vw,2.5rem); margin:0; font-weight:400; }
+  .sec-lede{ max-width:60ch; color:var(--ink-soft); font-size:1.02rem; margin-top:10px; }
+  .sec-aside{ max-width:280px; font-size:0.88rem; color:var(--ink-soft); text-align:right; }
+  @media (max-width:700px){ .sec-aside{ text-align:left; } }
+
+  /* ---------- CARDS / GRID ---------- */
+  .grid{ display:grid; gap:22px; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  .grid-2{ grid-template-columns:repeat(2,1fr); }
+  @media (max-width:860px){ .grid-3{ grid-template-columns:1fr 1fr; } .grid-2{grid-template-columns:1fr;} }
+  @media (max-width:600px){ .grid-3{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:4px;
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .card .ph{ aspect-ratio:4/3; }
+  .card-body{ padding:18px 20px 20px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .card h3{ font-size:1.15rem; margin:0; font-weight:500; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:auto; padding-top:10px; }
+  .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:0.72rem; padding:4px 9px; border-radius:20px;
+    background:var(--moss-soft); color:var(--moss); border:1px solid transparent;
+  }
+  .tag.price{ background:var(--paprika-soft); color:var(--paprika); }
+  .tag.gold{ background:var(--gold-soft); color:var(--gold); }
+  .muted{ color:var(--ink-soft); font-size:0.92rem; }
+
+  /* ---------- FLIGHT TABLE ---------- */
+  .ticket{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:26px;
+    position:relative; box-shadow:var(--shadow);
+  }
+  table.flights{ width:100%; border-collapse:collapse; font-size:0.92rem; }
+  table.flights th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--ink-faint); font-weight:500; padding:0 10px 10px 0; border-bottom:1px solid var(--border);
+  }
+  table.flights td{ padding:13px 10px 13px 0; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.flights tr:last-child td{ border-bottom:none; }
+  table.flights td.num{ font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; }
+  .best-row td{ background:var(--moss-soft); }
+  .best-row td:first-child{ position:relative; }
+  .pill-best{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:0.06em;
+    background:var(--moss); color:var(--surface); padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:middle;
+  }
+  .tablewrap{ overflow-x:auto; }
+
+  /* ---------- VISA CHECKLIST ---------- */
+  .visa-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:30px; align-items:start; }
+  @media (max-width:860px){ .visa-grid{ grid-template-columns:1fr; } }
+  .checklist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .checklist li{ display:flex; gap:12px; align-items:flex-start; font-size:0.95rem; }
+  .checklist li::before{
+    content:'✓'; flex:0 0 auto; width:22px; height:22px; border-radius:50%;
+    background:var(--moss); color:var(--surface); font-size:0.72rem; display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .factbox{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:22px; }
+  .factbox dl{ margin:0; display:flex; flex-direction:column; gap:12px; }
+  .factbox dt{ font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); }
+  .factbox dd{ margin:2px 0 0; font-family:'Fraunces',serif; font-size:1.25rem; }
+  .factbox dd small{ font-family:'Karla',sans-serif; font-size:0.78rem; color:var(--ink-soft); font-weight:600; display:block; margin-top:2px;}
+  hr.dotted{ border:none; border-top:1px dashed var(--border); margin:18px 0; }
+
+  /* ---------- HOTELS ---------- */
+  .hotel-card{ display:grid; grid-template-columns:220px 1fr; border:1px solid var(--border); border-radius:6px; overflow:hidden; background:var(--surface); }
+  .hotel-card .ph{ aspect-ratio:auto; height:100%; min-height:190px; }
+  .hotel-card .card-body{ padding:22px 24px; }
+  .hotel-card.pick{ outline:2px solid var(--gold); outline-offset:-2px; }
+  @media (max-width:700px){ .hotel-card{ grid-template-columns:1fr; } .hotel-card .ph{ aspect-ratio:16/9; } }
+  .hotel-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; }
+  .hotel-price{ text-align:right; white-space:nowrap; }
+  .hotel-price b{ font-family:'Fraunces',serif; font-size:1.35rem; }
+  .hotel-price span{ display:block; font-size:0.72rem; color:var(--ink-faint); font-family:'IBM Plex Mono',monospace; }
+  .pick-flag{ position:relative; }
+  .pick-flag::before{
+    content:'Наш выбор'; position:absolute; top:14px; left:0; background:var(--gold); color:var(--surface-2);
+    font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:0.06em; padding:3px 10px; border-radius:0 4px 4px 0;
+  }
+
+  /* ---------- ITINERARY ---------- */
+  .day{ display:grid; grid-template-columns:120px 1fr; gap:0 34px; padding:34px 0; border-top:1px dashed var(--border); }
+  .day:first-of-type{ border-top:none; }
+  .day-label{ font-family:'IBM Plex Mono',monospace; }
+  .day-label .no{ font-family:'Fraunces',serif; font-size:2.6rem; color:var(--gold); line-height:1; }
+  .day-label .dow{ font-size:0.78rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.06em; margin-top:6px; display:block; }
+  .day h3.title{ font-size:1.4rem; margin:0 0 6px; }
+  .day .theme{ color:var(--ink-soft); margin:0 0 20px; font-size:0.98rem; }
+  .slots{ display:flex; flex-direction:column; gap:18px; }
+  .slot{ display:grid; grid-template-columns:100px 1fr; gap:16px; }
+  @media (max-width:640px){ .slot{ grid-template-columns:70px 1fr; } .day{ grid-template-columns:1fr; } .day-label{ display:flex; align-items:baseline; gap:10px; margin-bottom:10px;} .day-label .no{ font-size:1.8rem; } }
+  .slot-time{ font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--moss); padding-top:2px; }
+  .slot-body p{ margin:4px 0 0; color:var(--ink-soft); font-size:0.94rem; }
+  .slot-body h4{ margin:0; font-size:1.02rem; font-weight:700; font-family:'Karla',sans-serif; }
+  .slot-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .transfer{
+    display:flex; align-items:center; gap:9px; padding-left:116px; margin:-4px 0;
+    font-family:'IBM Plex Mono',monospace; font-size:0.76rem; color:var(--moss);
+  }
+  .transfer .arrow{ flex:0 0 auto; }
+  @media (max-width:640px){ .transfer{ padding-left:80px; } }
+  .daytrip-banner{
+    margin-top:22px; background:var(--moss-soft); border:1px solid var(--border); border-radius:6px;
+    padding:16px 18px; font-size:0.88rem; color:var(--ink-soft);
+  }
+
+  /* ---------- FOOD ---------- */
+  .no-pork{ color:var(--paprika); font-weight:700; }
+
+  /* ---------- BUDGET ---------- */
+  .budget-table{ width:100%; border-collapse:collapse; }
+  .budget-table th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-faint); border-bottom:1px solid var(--border); padding:0 12px 10px 0;
+  }
+  .budget-table td{ padding:14px 12px 14px 0; border-bottom:1px dashed var(--border); }
+  .budget-table td.num, .budget-table th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; }
+  .budget-table tr.total td{ border-bottom:none; border-top:2px solid var(--ink); font-weight:700; padding-top:18px; }
+  .budget-table tr.total td.num{ font-family:'Fraunces',serif; font-size:1.3rem; font-weight:500; color:var(--paprika); }
+
+  /* ---------- TIPS ---------- */
+  .tip{ display:flex; gap:14px; align-items:flex-start; }
+  .tip .ico{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--gold-soft); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:0.85rem; font-weight:600;
+  }
+  .tip h4{ margin:0 0 4px; font-size:1rem; }
+  .tip p{ margin:0; color:var(--ink-soft); font-size:0.92rem; }
+
+  footer{ padding:40px 0 60px; text-align:center; color:var(--ink-faint); font-size:0.82rem; }
+  footer .route-mini{ font-family:'IBM Plex Mono',monospace; margin-top:6px; }
+
+  .credit{ font-size:0.72rem; color:var(--ink-faint); margin-top:6px; }
+</style>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><b>Будапешт</b>&nbsp;для двоих <span>ASTANA → BUD · 2027</span></div>
+    <ul class="navlinks">
+      <li><a href="#flights">Перелёт</a></li>
+      <li><a href="#visa">Виза</a></li>
+      <li><a href="#hotel">Отель</a></li>
+      <li><a href="#itinerary">Маршрут</a></li>
+      <li><a href="#food">Еда</a></li>
+      <li><a href="#budget">Бюджет</a></li>
+      <li><a href="#tips">Советы</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-media">
+    <img src="images/heroview.jpg" alt="Вид на Дунай и Будапешт с холма Геллерт">
+    <div class="hero-scrim"></div>
+    <div class="hero-copy">
+      <div class="hero-copy-inner">
+        <p class="eyebrow">Путешествие для двоих · 5 дней / 4 ночи</p>
+        <h1>Будапешт<br><em>город на Дунае</em></h1>
+        <p class="hero-sub">Термальные купальни, неоготический Парламент, руин-бары и гуляш — маршрут на июнь–июль 2027 года, собранный от вылета из Астаны до возвращения домой.</p>
+        <div class="route">
+          <div class="city">Астана<b>NQZ</b></div>
+          <div class="route-line"></div>
+          <div class="city">Стамбул<b>IST</b></div>
+          <div class="route-line"></div>
+          <div class="city">Будапешт<b>BUD</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="k">Перелёт туда-обратно</div><div class="v">$550<small> / чел, от</small></div></div>
+    <div class="stat"><div class="k">Проживание</div><div class="v">4★<small> в центре, от $220/ночь</small></div></div>
+    <div class="stat"><div class="k">Виза</div><div class="v">Schengen C<small> нужна, €90 + сбор</small></div></div>
+    <div class="stat"><div class="k">Бюджет на двоих</div><div class="v">~$3 500<small> перелёт+отель+еда+билеты</small></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FLIGHTS -->
+  <section class="sec" id="flights">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">01 — Перелёт</p>
+        <h2>Как добраться из Астаны</h2>
+        <p class="sec-lede">Прямых рейсов Астана — Будапешт нет: везде одна пересадка. Мы сравнили пять маршрутов — по цене и удобству.</p>
+      </div>
+      <div class="sec-aside">Цены — ориентировочные для лета (высокий сезон), за 1 взрослого туда-обратно. Проверяйте на Aviasales/Skyscanner за 3–5 месяцев до вылета.</div>
+    </div>
+
+    <div class="ticket">
+      <div class="tablewrap">
+        <table class="flights">
+          <thead>
+            <tr><th>Маршрут</th><th>Авиакомпания</th><th>Пересадка</th><th>В пути</th><th class="num">Цена / чел.</th></tr>
+          </thead>
+          <tbody>
+            <tr class="best-row">
+              <td>NQZ – IST – BUD<span class="pill-best">Оптимально</span></td>
+              <td>Turkish Airlines</td>
+              <td>Стамбул</td>
+              <td class="num">~9–11 ч</td>
+              <td class="num">$550–750</td>
+            </tr>
+            <tr>
+              <td>NQZ – WAW – BUD</td>
+              <td>LOT Polish Airlines</td>
+              <td>Варшава</td>
+              <td class="num">~9–10 ч</td>
+              <td class="num">$500–700</td>
+            </tr>
+            <tr>
+              <td>NQZ – hub – BUD</td>
+              <td>Wizz Air (бюджетный)</td>
+              <td>разные хабы</td>
+              <td class="num">12+ ч</td>
+              <td class="num">$400–600</td>
+            </tr>
+            <tr>
+              <td>NQZ – RIX – BUD</td>
+              <td>airBaltic</td>
+              <td>Рига</td>
+              <td class="num">~9–10 ч</td>
+              <td class="num">$600–800</td>
+            </tr>
+            <tr>
+              <td>NQZ – FRA/MUC – BUD</td>
+              <td>Lufthansa</td>
+              <td>Франкфурт / Мюнхен</td>
+              <td class="num">~10–12 ч</td>
+              <td class="num">$700–950</td>
+            </tr>
+            <tr>
+              <td>NQZ – DXB – BUD</td>
+              <td>FlyDubai / Emirates</td>
+              <td>Дубай</td>
+              <td class="num">~11–13 ч</td>
+              <td class="num">$650–850</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr class="dotted">
+      <p class="muted"><b style="color:var(--ink)">Рекомендация:</b> Turkish Airlines через Стамбул — один перевозчик на весь перелёт (проще с багажом и стыковками), частые короткие рейсы IST–BUD. Бюджетный вариант — LOT через Варшаву. Билеты на июнь–июль стоит бронировать за 3–5 месяцев (до конца февраля–марта 2027) — цены на лето растут резко за 60 дней до вылета.</p>
+    </div>
+  </section>
+
+  <!-- VISA -->
+  <section class="sec" id="visa">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">02 — Документы</p>
+        <h2>Виза и что взять с собой</h2>
+        <p class="sec-lede">Казахстан не входит в список безвизовых стран Шенгена — виза нужна обоим.</p>
+      </div>
+    </div>
+    <div class="visa-grid">
+      <div>
+        <ul class="checklist">
+          <li>Загранпаспорт — выпущен не более 10 лет назад, действителен ещё минимум 3 месяца после даты выезда из Шенгена, есть 2 чистые страницы</li>
+          <li>Анкета на визу Schengen Type C + актуальные фото</li>
+          <li>Подтверждение перелёта туда-обратно</li>
+          <li>Бронь отеля на все ночи проживания</li>
+          <li>Медицинская страховка с покрытием от €30 000, на весь Шенген</li>
+          <li>Подтверждение финансов — из расчёта ~€65–70 в день на человека, либо спонсорское письмо</li>
+          <li>Справка с работы (должность, стаж, зарплата за 3 мес.) или документы ИП</li>
+          <li>Сопроводительное письмо с описанием маршрута поездки</li>
+        </ul>
+        <p class="muted" style="margin-top:18px">Подавать документы нужно лично — в Астане это визовый центр VFS Global (пр. Кабанбай батыра 6/1, БЦ «Каскад», офис 12) либо в Алматы. Биометрия (отпечатки пальцев) обязательна, если действующей шенгенской визы с биометрией не было последние 5 лет.</p>
+      </div>
+      <div class="factbox">
+        <dl>
+          <dt>Тип визы</dt>
+          <dd>Schengen Type C<small>краткосрочная, до 90 дней</small></dd>
+          <dt>Визовый сбор</dt>
+          <dd>€90 + €25–35<small>единый сбор ЕС + сервисный сбор VFS, за человека</small></dd>
+          <dt>Срок рассмотрения</dt>
+          <dd>до 15 дней<small>иногда 30–45 в сложных случаях — подавайте за 4–6 недель до поездки</small></dd>
+          <dt>Где подавать</dt>
+          <dd>VFS Global<small>Астана или Алматы, на посольство Венгрии</small></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOTEL -->
+  <section class="sec" id="hotel">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">03 — Проживание</p>
+        <h2>Где остановиться в центре</h2>
+        <p class="sec-lede">Отели 4★ и выше в районах V/VI/VII — в 10–15 минутах пешком от Дуная, Базилики и метро.</p>
+      </div>
+      <div class="sec-aside">Бюджет: ~$1000/чел на проживание за всю поездку (4 ночи на двоих). Все варианты ниже укладываются в него с запасом.</div>
+    </div>
+
+    <div class="grid" style="gap:18px; margin-bottom:22px;">
+      <div class="hotel-card pick pick-flag">
+        <div class="ph"><img src="images/chainbridge.jpg" alt="Цепной мост через Дунай ночью"></div>
+        <div class="card-body">
+          <div class="hotel-top">
+            <div>
+              <h3>Prestige Hotel Budapest</h3>
+              <p class="muted">Район V (Belváros) · 200 м от Дуная, 300 м от Цепного моста</p>
+            </div>
+            <div class="hotel-price"><b>$220–280</b><span>за ночь, номер на двоих</span></div>
+          </div>
+          <p class="muted">4★ · рейтинг Booking.com 9.3. Отреставрированное историческое здание, номера от Roberto Cavalli Home, в пешей доступности от всех главных точек маршрута. 4 ночи ≈ $900–1120 на двоих — почти вдвое ниже бюджета.</p>
+          <div class="tag-row"><span class="tag gold">Наш выбор</span><span class="tag">Центр, 5 мин до метро</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="hotel-card">
+        <div class="ph"><img src="images/matthias.jpg" alt="Церковь Матьяша"></div>
+        <div class="card-body">
+          <div class="hotel-top">
+            <div><h3>Hotel Moments Budapest</h3><p class="muted">Район VI · у пр. Андраши / Оперы</p></div>
+            <div class="hotel-price"><b>$180–230</b><span>за ночь</span></div>
+          </div>
+          <p class="muted">4★, рейтинг ~9.0. Элегантное историческое здание, отличный завтрак, 10 мин пешком до Базилики.</p>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <div class="ph"><img src="images/szimpla.jpg" alt="Руин-бар в еврейском квартале"></div>
+        <div class="card-body">
+          <div class="hotel-top">
+            <div><h3>Continental Hotel Budapest</h3><p class="muted">Район VII · рядом с Большой синагогой</p></div>
+            <div class="hotel-price"><b>$190–240</b><span>за ночь</span></div>
+          </div>
+          <p class="muted">4.5★. Просторные современные номера, метро «за углом», 15 мин пешком до центра.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:22px"><b style="color:var(--ink)">Если хочется побаловать себя:</b> Aria Hotel Budapest (5★, район V) — дизайн-отель с музыкальной темой и панорамным рутоп-баром, от $380–480/ночь. 4 ночи ≈ $1520–1920 на двоих — всё ещё в рамках бюджета $2000, если решите не экономить.</p>
+
+    <hr class="dotted">
+    <p class="muted"><b style="color:var(--ink)">Из аэропорта:</b> автобус 100E — ~$7/чел, 40 мин до центра; официальное такси Főtaxi — €28–35, ~35 мин; трансфер MiniBUD (общий шаттл) — ~$12/чел от двери до двери.</p>
+  </section>
+
+  <!-- ITINERARY -->
+  <section class="sec" id="itinerary">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">04 — Маршрут</p>
+        <h2>Пять дней в Будапеште</h2>
+        <p class="sec-lede">Буда в первой половине, Пешт и купальни — во второй, один день — вылазка в Сентендре.</p>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-label"><span class="no">01</span><span class="dow">Заезд</span></div>
+      <div>
+        <h3 class="title">Прилёт и первый вечер у Дуная</h3>
+        <p class="theme">Заселение, лёгкая прогулка вдоль набережной, знакомство с городом без спешки.</p>
+        <div class="slots">
+          <div class="slot"><div class="slot-time">14:00</div><div class="slot-body"><h4>Трансфер в отель</h4><p>Автобус 100E (~40 мин, $7/чел) или такси Főtaxi (~35 мин, €28–35) из аэропорта, заселение в Prestige Hotel.</p></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 5–10 мин пешком от отеля до набережной</div>
+          <div class="slot"><div class="slot-time">17:00</div><div class="slot-body"><h4>Набережная Дуная и Цепной мост</h4><p>Прогулка от площади Сечени до моста, лучший свет — перед закатом.</p><div class="slot-tags"><span class="tag">Бесплатно</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 10 мин пешком вдоль набережной до причала</div>
+          <div class="slot"><div class="slot-time">20:00</div><div class="slot-body"><h4>Вечерний круиз по Дунаю</h4><p>Часовая прогулка на теплоходе мимо подсвеченного Парламента и Цепного моста.</p><div class="slot-tags"><span class="tag price">$16–30 / чел</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 15–20 мин пешком или 10 мин на такси до района VII</div>
+          <div class="slot"><div class="slot-time">21:30</div><div class="slot-body"><h4>Ужин: Kádár Étkezde</h4><p>Домашняя венгерская кухня, меню дня. Берите говяжий гуляш или паприкаш из курицы — <span class="no-pork">без свинины</span>.</p><div class="slot-tags"><span class="tag price">$12–18 / чел</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-label"><span class="no">02</span><span class="dow">Буда</span></div>
+      <div>
+        <h3 class="title">Крепостной холм, Геллерт и Большой рынок</h3>
+        <p class="theme">Замковая гора утром, холм Геллерт днём, рынок у моста Свободы — на обед.</p>
+        <div class="slots">
+          <div class="transfer"><span class="arrow">↳</span> 10 мин пешком через Цепной мост, затем фуникулёр Сикло (5 мин, очередь возможна) или бесплатный Várbusz от Clark Ádám tér</div>
+          <div class="slot"><div class="slot-time">09:30</div><div class="slot-body"><h4>Будайская крепость и Рыбацкий бастион</h4><p>Дворец, смотровые башенки бастиона.</p><div class="slot-tags"><span class="tag price">Бастион $5</span><span class="tag price">Музей $11</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 5–7 мин пешком внутри Крепостного холма</div>
+          <div class="slot"><div class="slot-time">11:30</div><div class="slot-body"><h4>Церковь Матьяша</h4><p>Разноцветная черепичная крыша, коронационная церковь венгерских королей.</p><div class="slot-tags"><span class="tag price">$11–13</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> автобус 86 от Крепостного холма до Szent Gellért tér (~15 мин), затем подъём пешком 15–20 мин</div>
+          <div class="slot"><div class="slot-time">13:30</div><div class="slot-body"><h4>Холм Геллерт и Цитадель</h4><p>Вид на весь город со статуей Свободы.</p><div class="slot-tags"><span class="tag">Смотровая — бесплатно</span><span class="tag price">Экспозиция $8</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> спуск с холма + через мост Свободы (Szabadság híd), ~10–12 мин пешком</div>
+          <div class="slot"><div class="slot-time">15:30</div><div class="slot-body"><h4>Обед: Большой рынок (Nagyvásárcsarnok)</h4><p>Прямо у моста Свободы — лангош со сметаной и сыром (без ветчины), паприка на вынос.</p><div class="slot-tags"><span class="tag gold">Вход бесплатный</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> такси ~15 мин, либо трамвай 47/49 + 10 мин пешком до района VIII</div>
+          <div class="slot"><div class="slot-time">20:00</div><div class="slot-body"><h4>Ужин: Rosenstein</h4><p>Еврейско-венгерская кухня в районе VIII — паприкаш и штрудели, <span class="no-pork">без свинины</span> по умолчанию.</p><div class="slot-tags"><span class="tag price">$20–25 / чел</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-label"><span class="no">03</span><span class="dow">Пешт</span></div>
+      <div>
+        <h3 class="title">Парламент, базилика и термы Сечени</h3>
+        <p class="theme">Главные символы Пешта утром, вечер — в жёлтых водах старейшей купальни Европы.</p>
+        <div class="slots">
+          <div class="transfer"><span class="arrow">↳</span> 10–15 мин пешком вдоль набережной от отеля, либо трамвай 2 (3 мин)</div>
+          <div class="slot"><div class="slot-time">09:00</div><div class="slot-body"><h4>Здание Парламента — экскурсия</h4><p>Бронируйте заранее: билеты на утренние слоты для не-граждан ЕС разбирают быстро.</p><div class="slot-tags"><span class="tag price">$55–65 / чел</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 5 мин пешком на юг вдоль набережной</div>
+          <div class="slot"><div class="slot-time">10:15</div><div class="slot-body"><h4>«Ботинки на набережной Дуная»</h4><p>Мемориал жертвам 1944–45 годов, прямо на берегу.</p><div class="slot-tags"><span class="tag">Бесплатно</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 12–15 мин пешком в сторону площади Сечени</div>
+          <div class="slot"><div class="slot-time">11:00</div><div class="slot-body"><h4>Базилика Св. Иштвана</h4><p>Подъём на купол — панорама на весь город с высоты 96 м.</p><div class="slot-tags"><span class="tag price">Храм $7</span><span class="tag price">+ купол $18–20</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> обед рядом с базиликой, затем метро M1 (жёлтая линия) от Bajcsy-Zsilinszky út до Hősök tere, ~10 мин — либо вся прогулка по Андраши пешком, 30–35 мин</div>
+          <div class="slot"><div class="slot-time">15:00</div><div class="slot-body"><h4>Проспект Андраши → площадь Героев → Городской парк</h4><p>Витрины, замок Вайдахуняд, неспешная прогулка по главному бульвару.</p><div class="slot-tags"><span class="tag">Бесплатно</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> купальня прямо в парке, 2 мин пешком</div>
+          <div class="slot"><div class="slot-time">17:30</div><div class="slot-body"><h4>Термальная купальня Сечени</h4><p>Открытые бассейны в неоbarокко-корпусе — 2–4 часа релакса.</p><div class="slot-tags"><span class="tag price">$28–37 / чел</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> Kiosk в 3 мин пешком от купальни</div>
+          <div class="slot"><div class="slot-time">21:00</div><div class="slot-body"><h4>Ужин: Kiosk</h4><p>Современная венгерская кухня у парка — гуляш и паприкаш с трюфельной лапшой.</p><div class="slot-tags"><span class="tag price">$13–17 / чел</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-label"><span class="no">04</span><span class="dow">Вылазка</span></div>
+      <div>
+        <h3 class="title">Сентендре и еврейский квартал</h3>
+        <p class="theme">Полдня — в городке художников на Дунае, вечер — синагога и руин-бары.</p>
+        <div class="slots">
+          <div class="transfer"><span class="arrow">↳</span> от отеля метро M2 (красная линия) 1 остановка до Batthyány tér (~4 мин), либо 15 мин пешком/трамваем</div>
+          <div class="slot"><div class="slot-time">09:00</div><div class="slot-body"><h4>Электричка HÉV (линия H5) до Сентендре</h4><p>От станции Batthyány tér, ходит каждые 20 минут, ~40 минут в пути.</p><div class="slot-tags"><span class="tag price">~$2.5 / чел в одну сторону</span></div></div></div>
+          <div class="slot"><div class="slot-time">10:00</div><div class="slot-body"><h4>Старый город Сентендре</h4><p>Мощёные улочки, галереи художников, Музей марципана, обед в кафе у набережной — всё в 5–10 мин ходьбы от станции.</p></div></div>
+          <div class="transfer"><span class="arrow">↳</span> HÉV обратно до Batthyány tér, ~40 мин</div>
+          <div class="slot"><div class="slot-time">14:30</div><div class="slot-body"><h4>Возвращение в Будапешт</h4><p>Тем же поездом HÉV, отправление каждые 20 минут.</p></div></div>
+          <div class="transfer"><span class="arrow">↳</span> метро M2 до Deák Ferenc tér (~4 мин) + 10 мин пешком до синагоги</div>
+          <div class="slot"><div class="slot-time">16:00</div><div class="slot-body"><h4>Большая синагога и еврейский квартал</h4><p>Крупнейшая синагога Европы, музей, мемориальный сад Валленберга.</p><div class="slot-tags"><span class="tag price">$42 / чел</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> 5–8 мин пешком по еврейскому кварталу</div>
+          <div class="slot"><div class="slot-time">21:00</div><div class="slot-body"><h4>Szimpla Kert</h4><p>Легендарный первый руин-бар в полуразрушенном здании — пиво и коктейли среди старой мебели и растений.</p><div class="slot-tags"><span class="tag price">Пиво $6</span><span class="tag price">Коктейль $16</span></div></div></div>
+        </div>
+        <div class="daytrip-banner">Альтернативы для однодневной поездки, если Сентендре уже видели или хочется дальше: <b>Вишеград</b> (40–90 мин, крепость и вид на излучину Дуная), <b>Эгер</b> (1 ч 50 мин на поезде, крепость и винный регион), <b>озеро Балатон</b> (1.5–2 ч, пляжи и полуостров Тихань).</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-label"><span class="no">05</span><span class="dow">Отъезд</span></div>
+      <div>
+        <h3 class="title">Последнее утро и вылет домой</h3>
+        <p class="theme">Неспешный завтрак, сувениры на Vaci utca и кофе на прощание перед аэропортом.</p>
+        <div class="slots">
+          <div class="transfer"><span class="arrow">↳</span> отель стоит прямо на Vaci utca — выселение и хранение багажа на ресепшене</div>
+          <div class="slot"><div class="slot-time">10:00</div><div class="slot-body"><h4>Прогулка по Vaci utca</h4><p>Пешеходная торговая улица — сувениры, паприка, токайское вино на вынос.</p></div></div>
+          <div class="transfer"><span class="arrow">↳</span> трамвай 4/6 или метро M2 до Blaha Lujza tér (~8 мин) + 3 мин пешком</div>
+          <div class="slot"><div class="slot-time">12:00</div><div class="slot-body"><h4>Кофе на прощание: New York Café</h4><p>Самое роскошное кафе Европы — неоренессансный интерьер 1894 года, капучино с золотой пенкой.</p><div class="slot-tags"><span class="tag price">~$13 / чел</span></div></div></div>
+          <div class="transfer"><span class="arrow">↳</span> вернуться в отель за багажом ~15 мин (трамвай/такси), затем в аэропорт</div>
+          <div class="slot"><div class="slot-time">15:00</div><div class="slot-body"><h4>Трансфер в аэропорт и вылет</h4><p>Автобус 100E (~40 мин) или такси (~35 мин) — закладывайте 60 мин с учётом заезда за вещами и регистрации.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOD -->
+  <section class="sec" id="food">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">05 — Гастрономия</p>
+        <h2>Где вкусно поесть</h2>
+        <p class="sec-lede">От домашнего гуляша до мишленовской кухни. Отмечено <span class="no-pork">без свинины</span> там, где это основной вариант меню.</p>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="ph"><img src="images/goulash.jpg" alt="Венгерский гуляш"></div>
+        <div class="card-body">
+          <h3>Rosenstein</h3>
+          <p class="muted">Район VIII · еврейско-венгерская кухня, домашний паприкаш и штрудели.</p>
+          <div class="tag-row"><span class="tag price">$20–25 / чел</span><span class="tag" style="background:var(--paprika-soft);color:var(--paprika)">без свинины</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="images/markethall.jpg" alt="Большой рынок Будапешта"></div>
+        <div class="card-body">
+          <h3>Kádár Étkezde</h3>
+          <p class="muted">Еврейский квартал · меняющееся ежедневно меню, гуляш и паприкаш из курицы.</p>
+          <div class="tag-row"><span class="tag price">$12–18 / чел</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="images/szechenyi.jpg" alt="Термальная купальня Сечени"></div>
+        <div class="card-body">
+          <h3>Kiosk</h3>
+          <p class="muted">У Городского парка · современная подача классики, паприкаш с трюфельной лапшой.</p>
+          <div class="tag-row"><span class="tag price">$13–17 / чел</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="images/parliament.jpg" alt="Здание Парламента"></div>
+        <div class="card-body">
+          <h3>Costes</h3>
+          <p class="muted">Район IX · 1 звезда Мишлен, лучший вариант для обеденного дегустационного меню.</p>
+          <div class="tag-row"><span class="tag price">от $47 / чел (обед)</span><span class="tag gold">Мишлен</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="images/basilica.jpg" alt="Базилика Святого Иштвана"></div>
+        <div class="card-body">
+          <h3>Onyx</h3>
+          <p class="muted">Пл. Вёрёшмарти · дегустационное меню из 12 блюд, формальный фаин-дайнинг.</p>
+          <div class="tag-row"><span class="tag price">от $120 / чел</span><span class="tag gold">Мишлен</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ph"><img src="images/szimpla.jpg" alt="Szimpla Kert"></div>
+        <div class="card-body">
+          <h3>Szimpla Kert</h3>
+          <p class="muted">Еврейский квартал · культовый руин-бар, воскресный рынок фермеров днём.</p>
+          <div class="tag-row"><span class="tag price">Пиво $6 / коктейль $16</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUDGET -->
+  <section class="sec" id="budget">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">06 — Бюджет</p>
+        <h2>Смета на двоих</h2>
+        <p class="sec-lede">Ориентировочный расчёт по среднему варианту (Turkish Airlines, Prestige Hotel, музеи и купальни из маршрута выше).</p>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="tablewrap">
+        <table class="budget-table">
+          <thead><tr><th>Статья</th><th class="num">На человека</th><th class="num">На двоих</th></tr></thead>
+          <tbody>
+            <tr><td>Перелёт Астана ⇄ Будапешт (Turkish Airlines)</td><td class="num">$650</td><td class="num">$1 300</td></tr>
+            <tr><td>Виза Schengen + сервисный сбор VFS</td><td class="num">$130</td><td class="num">$260</td></tr>
+            <tr><td>Отель Prestige, 4 ночи (в сумме на номер)</td><td class="num">$500</td><td class="num">$1 000</td></tr>
+            <tr><td>Билеты и купальни по маршруту</td><td class="num">$200</td><td class="num">$400</td></tr>
+            <tr><td>Питание, 5 дней (кафе + 1 ужин fine-dining)</td><td class="num">$280</td><td class="num">$560</td></tr>
+            <tr><td>Электричка в Сентендре + обед там</td><td class="num">$25</td><td class="num">$50</td></tr>
+            <tr><td>Трансфер аэропорт ⇄ город + транспорт по городу</td><td class="num">$35</td><td class="num">$70</td></tr>
+            <tr class="total"><td>Итого</td><td class="num">~$1 820</td><td class="num">~$3 640</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px">Без учёта покупок и сувениров. Проживание укладывается в целевой бюджет $1000/чел с большим запасом — разницу можно направить на более дорогой отель (Aria) или мишленовский ужин на двоих.</p>
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="sec" id="tips" style="border-bottom:none;">
+    <div class="sec-head">
+      <div>
+        <p class="sec-num">07 — На заметку</p>
+        <h2>Практические мелочи</h2>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="tip"><div class="ico">Ft</div><div><h4>Валюта</h4><p>Венгерский форинт (HUF), ~340 HUF/€. Карты принимают почти везде, но на рынке и в автобусе 100E пригодится наличность.</p></div></div>
+      <div class="tip"><div class="ico">M1</div><div><h4>Транспорт</h4><p>Метро, трамваи и автобусы — по единому билету. Проездной на 72 часа ≈ $18–20/чел выгоднее разовых поездок.</p></div></div>
+      <div class="tip"><div class="ico">☀</div><div><h4>Погода</h4><p>Июнь–июль — 22–28°C, солнечно. Берите лёгкую одежду, купальник для терм и удобную обувь для брусчатки.</p></div></div>
+      <div class="tip"><div class="ico">🗣</div><div><h4>Язык</h4><p>Венгерский уникален и труден, но в туристических местах, отелях и ресторанах свободно говорят по-английски.</p></div></div>
+      <div class="tip"><div class="ico">⎓</div><div><h4>Розетки</h4><p>Тип C/F, 220–230 В — совпадает со стандартом СНГ, переходник не нужен.</p></div></div>
+      <div class="tip"><div class="ico">🐷</div><div><h4>Без свинины</h4><p>Гуляш и паприкаш традиционно готовят из говядины и курицы — уточняйте только начинку лангоша (часто с ветчиной) и колбаски в супах.</p></div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div>Будапешт для двоих · маршрут на 5 дней, июнь–июль 2027</div>
+  <div class="route-mini">NQZ ✈ IST ✈ BUD ✈ IST ✈ NQZ</div>
+  <div class="credit">Фото: Wikimedia Commons. Цены и сроки актуальны на момент подготовки — уточняйте перед бронированием.</div>
+</footer>
